@@ -4,7 +4,13 @@ var http = require('http');
 // Declares a function that gets invoked on every request
 function handleRequest(req, res) {
   res.setHeader("Content-Type", "text/plain");
-  res.end("Well hello there!");
+  if (req.url === '/special-request') {
+    res.end('Such a special request!');
+  } else if (req.url === '/not-special-request') {
+    res.end('Boring')
+  } else {
+    res.end('Something about ' + req.url)
+  }
 }
 
 // Creates an instance of a server with our callback
