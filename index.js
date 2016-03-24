@@ -1,17 +1,16 @@
 // requires Node's `http` module
 var http = require('http');
+var routes = require('./routes');
 
 // Declares a function that gets invoked on every request
 function handleRequest(req, res) {
   res.setHeader("Content-Type", "text/plain");
-  if (req.url === '/special-request') {
-    res.end('Such a special request!');
-  } else if (req.url === '/not-special-request') {
-    res.end('Boring')
+  if (routes[req.url] === undefined) {
+    res.end("404, no such route");
   } else {
-    res.end('Something about ' + req.url)
-  }
-}
+    routes[req.url](req, res);
+  };
+};
 
 // Creates an instance of a server with our callback
 var server = http.createServer(handleRequest);
